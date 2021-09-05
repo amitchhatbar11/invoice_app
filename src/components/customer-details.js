@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import { Col, Input, Label } from "reactstrap";
 import skipIcon from "../assets/skip-icon.png";
 
@@ -13,6 +14,9 @@ const CustomerDetails = ({
   pincode,
   setEmail,
   email,
+  phoneError,
+  nameError,
+  emailError,
 }) => {
   return (
     <>
@@ -40,6 +44,9 @@ const CustomerDetails = ({
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
           />
+          {!isEmpty(nameError) && (
+            <span className="text-danger">{nameError}</span>
+          )}
         </div>
         <div className="col-6">
           <Label for="exampleEmail">Phone Number</Label>
@@ -52,12 +59,15 @@ const CustomerDetails = ({
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
+          {!isEmpty(phoneError) && (
+            <span className="text-danger">{phoneError}</span>
+          )}
         </div>
         <div className="col-6 mt-4">
           <Label for="exampleText">Address</Label>
           <Input
             type="textarea"
-            rows="4"
+            rows="5"
             name="address"
             id="address"
             value={address}
@@ -65,16 +75,21 @@ const CustomerDetails = ({
           />
         </div>
         <div className="col-6 mt-4">
-          <Label for="exampleEmail">Email</Label>
-          <sup>*</sup>
-          <Input
-            type="email"
-            name="email"
-            id="exampleEmail"
-            placeholder="Customer Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <div>
+            <Label for="exampleEmail">Email</Label>
+            <sup>*</sup>
+            <Input
+              type="email"
+              name="email"
+              id="exampleEmail"
+              placeholder="Customer Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {!isEmpty(emailError) && (
+              <span className="text-danger">{emailError}</span>
+            )}
+          </div>
           <Label for="pincode">Zip</Label>
           <Input
             className="w-50"

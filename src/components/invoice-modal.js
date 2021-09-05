@@ -17,6 +17,10 @@ const InvoiceModal = ({
   pincode,
   setEmail,
   email,
+  phoneError,
+  nameError,
+  emailError,
+  validateCustomerInfo,
 }) => {
   const [customerComponent, setCustomerComponent] = useState(true);
 
@@ -24,6 +28,16 @@ const InvoiceModal = ({
     setCustomerComponent(!customerComponent);
   };
 
+  const onClickProceed = () => {
+    console.log(`validateCustomerInfo invoice modal`, validateCustomerInfo());
+    if (validateCustomerInfo()) {
+      console.log(`******************`, customerComponent);
+      skipCustomerComponent();
+    }
+  };
+
+  const onClickSave = () => {};
+  console.log(`customerComponent`, customerComponent);
   return (
     <>
       <Modal isOpen={modal} toggle={toggle} size="xl">
@@ -50,13 +64,25 @@ const InvoiceModal = ({
               setEmail={setEmail}
               email={email}
               skipCustomerComponent={skipCustomerComponent}
+              nameError={nameError}
+              emailError={emailError}
+              phoneError={phoneError}
             />
           ) : (
-            <ProductDetails skipCustomerComponent={skipCustomerComponent} />
+            <ProductDetails
+              email={email}
+              fullName={fullName}
+              skipCustomerComponent={skipCustomerComponent}
+            />
           )}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
+          <Button
+            color="primary"
+            onClick={() =>
+              customerComponent ? onClickProceed() : onClickSave()
+            }
+          >
             {`${customerComponent ? "Proceed" : "Save"}`}
           </Button>{" "}
         </ModalFooter>

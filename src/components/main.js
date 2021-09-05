@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import { useState } from "react";
 import { Card, CardBody, Table } from "reactstrap";
 import plusIcon from "../assets/plus-white.png";
@@ -11,6 +12,9 @@ const Main = () => {
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [pincode, setPincode] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const toggleModal = () => {
     setModal(!modal);
@@ -20,7 +24,29 @@ const Main = () => {
     setModal(true);
   };
 
-  console.log(`fullName`, fullName);
+  const validateCustomerInfo = () => {
+    let result = true;
+    if (!isEmpty(fullName)) {
+      setNameError("");
+    } else {
+      result = false;
+      setNameError("Full name is required.");
+    }
+    if (!isEmpty(email)) {
+      setEmailError("");
+    } else {
+      result = false;
+      setEmailError("Email is required.");
+    }
+    if (!isEmpty(phoneNumber)) {
+      setPhoneError("");
+    } else {
+      result = false;
+      setPhoneError("Phone number is required.");
+    }
+
+    return result;
+  };
 
   return (
     <>
@@ -78,6 +104,10 @@ const Main = () => {
           email={email}
           modal={modal}
           toggle={toggleModal}
+          validateCustomerInfo={validateCustomerInfo}
+          nameError={nameError}
+          emailError={emailError}
+          phoneError={phoneError}
         />
       )}
     </>

@@ -1,12 +1,10 @@
-const CustomerInfo = () => {
+const CustomerInfo = ({ email, fullName }) => {
   return (
     <>
       <div>
         <div className="info-title text-uppercase">Customer Details</div>
-        <div className="info-name text-uppercase">JOHN DOE</div>
-        <div className="info-email text-lowercase">
-          amitchhatbar11@gmail.com
-        </div>
+        <div className="info-name text-uppercase">{fullName}</div>
+        <div className="info-email text-lowercase">{email}</div>
       </div>
     </>
   );

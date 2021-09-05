@@ -3,7 +3,7 @@ import enterIcon from "../assets/enter-icon.png";
 import editIcon from "../assets/edit.png";
 import CustomerInfo from "./customer-info";
 
-const ProductDetails = () => {
+const ProductDetails = ({ email, fullName, skipCustomerComponent }) => {
   return (
     <>
       <div className="d-flex justify-content-between mt-4">
@@ -11,12 +11,13 @@ const ProductDetails = () => {
           Product Details
         </div>
         <div className="text-right d-flex">
-          <CustomerInfo />
+          <CustomerInfo email={email} fullName={fullName} />
           <div className="align-items-end d-flex ml-3 mb-2">
             <img
               src={editIcon}
               alt="edit-icon"
               className="img-fluid cursor-pointer"
+              onClick={skipCustomerComponent}
             />
           </div>
         </div>
