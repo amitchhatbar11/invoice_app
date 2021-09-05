@@ -1,0 +1,104 @@
+@import "./colors";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.header {
+  background-color: $blue;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar {
+  background-color: $bg-black;
+  height: 100vh;
+}
+
+.main {
+  height: 100vh;
+  background-color: $light-gray;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.title {
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.card {
+  height: 90vh;
+}
+
+.plus-icon {
+  border-radius: 60px;
+  background: $pink;
+  padding: 0.8em 0.9em;
+  margin-top: -20px;
+}
+
+.skip-div {
+  background: $light-gray;
+  color: $light-blue;
+  height: 40px;
+  width: 82px;
+  line-height: 50px;
+  font-weight: 400;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+sup {
+  color: red;
+}
+
+textarea {
+  resize: none;
+}
+
+.enter-icon {
+  border: 2px solid $light-blue;
+  padding: 0.6em;
+}
+
+.info-title {
+  opacity: 0.3;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.info-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.info-email {
+  opacity: 0.6;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.invoice-title {
+  font-weight: 600;
+}
+
+.invoice-id {
+  font-weight: 300;
+}
+
+.invoice-time {
+  opacity: 0.6;
+  font-size: 13px;
+  font-weight: 600;
+}
