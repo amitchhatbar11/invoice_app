@@ -29,15 +29,12 @@ const InvoiceModal = ({
   };
 
   const onClickProceed = () => {
-    console.log(`validateCustomerInfo invoice modal`, validateCustomerInfo());
     if (validateCustomerInfo()) {
-      console.log(`******************`, customerComponent);
       skipCustomerComponent();
     }
   };
 
   const onClickSave = () => {};
-  console.log(`customerComponent`, customerComponent);
   return (
     <>
       <Modal isOpen={modal} toggle={toggle} size="xl">
