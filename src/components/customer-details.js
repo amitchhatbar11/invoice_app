@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import { Col, Input, Label } from "reactstrap";
+import { Input, Label } from "reactstrap";
 import skipIcon from "../assets/skip-icon.png";
 
 const CustomerDetails = ({

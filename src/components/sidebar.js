@@ -1,24 +1,45 @@
 import { isEmpty } from "lodash";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import searchIcon from "../assets/search-icon.png";
 import { currencyFormatter } from "../helper";
 
 const Sidebar = ({ invoices, selectInvoice }) => {
   const [selectedInvoiceid, setSelectedInvoiceid] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [filteredInvoices, setFilteredInvoices] = useState(invoices);
 
   const selectInvoiceAndId = (item) => {
     selectInvoice(item);
     setSelectedInvoiceid(`${item.id}_${item.name}`);
   };
+
+  useEffect(() => {
+    setFilteredInvoices(invoices);
+  }, [invoices]);
+
+  useEffect(() => {
+    const filtered = filterInvoices();
+    setFilteredInvoices(filtered);
+  }, [searchText]);
+
+  const filterInvoices = () => {
+    if (!searchText) return invoices;
+    return invoices.filter(
+      (item) =>
+        item.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1 ||
+        item.email.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+    );
+  };
+
   return (
     <>
       <div className="col-3 sidebar">
         <InputGroup className="mt-2">
           <InputGroupAddon addonType="prepend">
             <InputGroupText>
-              <img src={searchIcon} className="img-fluid" />
+              <img src={searchIcon} className="img-fluid" alt="search-icon" />
             </InputGroupText>
           </InputGroupAddon>
           <Input
@@ -26,13 +47,14 @@ const Sidebar = ({ invoices, selectInvoice }) => {
             name="search"
             id="search-input"
             placeholder="Search..."
+            onChange={(e) => setSearchText(e.target.value)}
           />
         </InputGroup>
         <hr color="gray" />
-        {isEmpty(invoices) && (
+        {isEmpty(filteredInvoices) && (
           <div className="text-center text-white">No invoices</div>
         )}
-        {invoices.map((item) => {
+        {filteredInvoices.map((item) => {
           return (
             <div
               key={`${item.id}_${item.name}`}

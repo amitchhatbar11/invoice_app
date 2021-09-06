@@ -1,6 +1,6 @@
-import { isEmpty, subtract } from "lodash";
+import { isEmpty } from "lodash";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
 import closeIcon from "../assets/close-btn.png";
 import { currencyFormatter } from "../helper";
@@ -87,7 +87,7 @@ const InvoiceModal = ({ modal, toggle, invoices, createInvoices }) => {
               <div className="text-muted ml-5">Order No: 1234</div>
             </div>
             <span className="cursor-pointer" onClick={toggle}>
-              <img src={closeIcon} className="img-fluid" />
+              <img src={closeIcon} className="img-fluid" alt="close-icon" />
             </span>
           </div>
           {customerComponent ? (

@@ -2,8 +2,7 @@ import { Input, Table } from "reactstrap";
 import enterIcon from "../assets/enter-icon.png";
 import editIcon from "../assets/edit.png";
 import CustomerInfo from "./customer-info";
-import { useEffect, useState } from "react";
-import { isEmpty } from "lodash";
+import React, { useEffect, useState } from "react";
 import { currencyFormatter } from "../helper";
 
 const ProductDetails = ({
@@ -92,14 +91,14 @@ const ProductDetails = ({
         <tbody>
           {itemArray.map((item, index) => {
             return (
-              <>
-                <tr key={`${index}_${item.name}`}>
+              <React.Fragment key={`${index}_${item.name}`}>
+                <tr>
                   <td>{item.name}</td>
                   <td>{item.qty}</td>
                   <td>{item.price}</td>
                   <td></td>
                 </tr>
-              </>
+              </React.Fragment>
             );
           })}
           <tr>

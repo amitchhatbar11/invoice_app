@@ -1,4 +1,4 @@
-import { get, isEmpty } from "lodash";
+import { get } from "lodash";
 import moment from "moment";
 import { useState } from "react";
 import { Card, CardBody, Table } from "reactstrap";
@@ -24,7 +24,11 @@ const Main = ({ createInvoices, invoices, selectedInvoice }) => {
         <div className="d-flex justify-content-between">
           <div className="text-uppercase text-muted title mt-4">Invoice</div>
           <div className="cursor-pointer" onClick={openInvoiceModal}>
-            <img src={plusIcon} className="img-fluid plus-icon" />
+            <img
+              src={plusIcon}
+              className="img-fluid plus-icon"
+              alt="plus-icon"
+            />
           </div>
         </div>
         <Card className="mt-4 overflow-auto">
@@ -60,15 +64,13 @@ const Main = ({ createInvoices, invoices, selectedInvoice }) => {
                   <tbody>
                     {selectedInvoice.items.map((item, index) => {
                       return (
-                        <>
-                          <tr key={`${index}_${item.name}`}>
-                            <td>{item.name}</td>
-                            <td></td>
-                            <td>{item.qty}</td>
-                            <td></td>
-                            <td>{item.price}</td>
-                          </tr>
-                        </>
+                        <tr key={`${index}_${item.name}`}>
+                          <td>{item.name}</td>
+                          <td></td>
+                          <td>{item.qty}</td>
+                          <td></td>
+                          <td>{item.price}</td>
+                        </tr>
                       );
                     })}
                     <tr>
