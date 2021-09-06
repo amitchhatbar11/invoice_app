@@ -5,7 +5,7 @@ import { Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import searchIcon from "../assets/search-icon.png";
 import { currencyFormatter } from "../helper";
 
-const Sidebar = ({ invoices, selectInvoice }) => {
+const Invoices = ({ invoices, selectInvoice }) => {
   const [selectedInvoiceid, setSelectedInvoiceid] = useState("");
   const [searchText, setSearchText] = useState("");
   const [filteredInvoices, setFilteredInvoices] = useState(invoices);
@@ -35,7 +35,7 @@ const Sidebar = ({ invoices, selectInvoice }) => {
 
   return (
     <>
-      <div className="col-3 sidebar">
+      <div className="col-3 invoices">
         <InputGroup className="mt-2">
           <InputGroupAddon addonType="prepend">
             <InputGroupText>
@@ -93,4 +93,4 @@ const Sidebar = ({ invoices, selectInvoice }) => {
   );
 };
 
-export default Sidebar;
+export default Invoices;

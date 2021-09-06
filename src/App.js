@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "./components/header";
 import Main from "./components/main";
-import Sidebar from "./components/sidebar";
+import Invoices from "./components/invoices";
 
 function App() {
   const [invoices, setInvoices] = useState([]);
@@ -19,7 +19,7 @@ function App() {
     <div className="container-fluid">
       <Header />
       <div className="d-flex">
-        <Sidebar
+        <Invoices
           invoices={invoices}
           createInvoices={createInvoices}
           selectInvoice={selectInvoice}
