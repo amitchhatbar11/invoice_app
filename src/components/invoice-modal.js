@@ -1,31 +1,53 @@
-import { useState } from "react";
+import { isEmpty, subtract } from "lodash";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
 import closeIcon from "../assets/close-btn.png";
 import CustomerDetails from "./customer-details";
 import ProductDetails from "./product-details";
 
-const InvoiceModal = ({
-  modal,
-  toggle,
-  setFullName,
-  fullName,
-  setPhoneNumber,
-  phoneNumber,
-  setAddress,
-  address,
-  setPincode,
-  pincode,
-  setEmail,
-  email,
-  phoneError,
-  nameError,
-  emailError,
-  validateCustomerInfo,
-}) => {
+const InvoiceModal = ({ modal, toggle, invoices, createInvoices }) => {
   const [customerComponent, setCustomerComponent] = useState(true);
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [tax, setTax] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
+  const [grandTotal, setGrandTotal] = useState(0);
+  const [itemArray, setItemArray] = useState([]);
 
   const skipCustomerComponent = () => {
     setCustomerComponent(!customerComponent);
+  };
+
+  const validateCustomerInfo = () => {
+    let result = true;
+    if (!isEmpty(fullName)) {
+      setNameError("");
+    } else {
+      result = false;
+      setNameError("Full name is required.");
+    }
+    if (!isEmpty(email)) {
+      setEmailError("");
+    } else {
+      result = false;
+      setEmailError("Email is required.");
+    }
+    if (!isEmpty(phoneNumber)) {
+      setPhoneError("");
+    } else {
+      result = false;
+      setPhoneError("Phone number is required.");
+    }
+
+    return result;
   };
 
   const onClickProceed = () => {
@@ -34,7 +56,27 @@ const InvoiceModal = ({
     }
   };
 
-  const onClickSave = () => {};
+  const onClickSave = () => {
+    if (validateCustomerInfo()) {
+      const invoiceObj = {
+        id: invoices.length + 1,
+        grandTotal: grandTotal,
+        tax: tax,
+        discount: discount,
+        items: itemArray,
+        name: fullName,
+        email: email,
+        address: address,
+        phoneNumber: phoneNumber,
+        pincode: pincode,
+        createdAt: moment(new Date()).format(),
+      };
+      createInvoices(invoiceObj);
+      toggle();
+    }
+  };
+
+  console.log(`grandTotal`, grandTotal);
   return (
     <>
       <Modal isOpen={modal} toggle={toggle} size="xl">
@@ -70,12 +112,46 @@ const InvoiceModal = ({
               email={email}
               fullName={fullName}
               skipCustomerComponent={skipCustomerComponent}
+              subTotal={subTotal}
+              setSubTotal={setSubTotal}
+              tax={tax}
+              setTax={setTax}
+              discount={discount}
+              setDiscount={setDiscount}
+              setGrandTotal={setGrandTotal}
+              itemArray={itemArray}
+              setItemArray={setItemArray}
             />
           )}
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter
+          className={`${
+            customerComponent ? "" : "d-flex justify-content-between"
+          }`}
+        >
+          {!customerComponent && (
+            <div className="d-flex justify-content-around w-50">
+              <div>
+                <div>Tax</div>
+                <div>{`₹ ${
+                  !isEmpty(tax) ? (subTotal * tax) / 100 : "0.00"
+                }`}</div>
+              </div>
+              <div>
+                <div>Discount</div>
+                <div>{`₹ ${
+                  !isEmpty(discount) ? (subTotal * discount) / 100 : "0.00"
+                }`}</div>
+              </div>
+              <div>
+                <div>Grand Total</div>
+                <div>{`₹ ${grandTotal ? grandTotal : "0.00"}`}</div>
+              </div>
+            </div>
+          )}
           <Button
             color="primary"
+            className="w-25"
             onClick={() =>
               customerComponent ? onClickProceed() : onClickSave()
             }

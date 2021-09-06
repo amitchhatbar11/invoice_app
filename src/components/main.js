@@ -5,16 +5,8 @@ import plusIcon from "../assets/plus-white.png";
 import CustomerInfo from "./customer-info";
 import InvoiceModal from "./invoice-modal";
 
-const Main = () => {
+const Main = ({ createInvoices, invoices }) => {
   const [modal, setModal] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [emailError, setEmailError] = useState("");
 
   const toggleModal = () => {
     setModal(!modal);
@@ -22,30 +14,6 @@ const Main = () => {
 
   const openInvoiceModal = () => {
     setModal(true);
-  };
-
-  const validateCustomerInfo = () => {
-    let result = true;
-    if (!isEmpty(fullName)) {
-      setNameError("");
-    } else {
-      result = false;
-      setNameError("Full name is required.");
-    }
-    if (!isEmpty(email)) {
-      setEmailError("");
-    } else {
-      result = false;
-      setEmailError("Email is required.");
-    }
-    if (!isEmpty(phoneNumber)) {
-      setPhoneError("");
-    } else {
-      result = false;
-      setPhoneError("Phone number is required.");
-    }
-
-    return result;
   };
 
   return (
@@ -92,22 +60,10 @@ const Main = () => {
       </div>
       {modal && (
         <InvoiceModal
-          setFullName={setFullName}
-          fullName={fullName}
-          setPhoneNumber={setPhoneNumber}
-          phoneNumber={phoneNumber}
-          setAddress={setAddress}
-          address={address}
-          setPincode={setPincode}
-          pincode={pincode}
-          setEmail={setEmail}
-          email={email}
           modal={modal}
           toggle={toggleModal}
-          validateCustomerInfo={validateCustomerInfo}
-          nameError={nameError}
-          emailError={emailError}
-          phoneError={phoneError}
+          createInvoices={createInvoices}
+          invoices={invoices}
         />
       )}
     </>
