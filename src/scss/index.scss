@@ -102,3 +102,24 @@ textarea {
   font-size: 13px;
   font-weight: 600;
 }
+
+.invoice-list-time {
+  font-size: 12px;
+  color: $light-gray;
+}
+
+.invoice-list-number {
+  font-size: 13 px;
+}
+
+.invoice-list-name {
+  color: $light-blue;
+}
+
+.invoice-list-price {
+  font-weight: 600;
+}
+
+.selected-invoice {
+  background-color: #404b57;
+}

@@ -1,11 +1,13 @@
-import { isEmpty } from "lodash";
+import { get, isEmpty } from "lodash";
+import moment from "moment";
 import { useState } from "react";
 import { Card, CardBody, Table } from "reactstrap";
 import plusIcon from "../assets/plus-white.png";
+import { currencyFormatter } from "../helper";
 import CustomerInfo from "./customer-info";
 import InvoiceModal from "./invoice-modal";
 
-const Main = ({ createInvoices, invoices }) => {
+const Main = ({ createInvoices, invoices, selectedInvoice }) => {
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
@@ -25,36 +27,105 @@ const Main = ({ createInvoices, invoices }) => {
             <img src={plusIcon} className="img-fluid plus-icon" />
           </div>
         </div>
-        <Card className="mt-4">
+        <Card className="mt-4 overflow-auto">
           <CardBody>
-            <div className="d-flex justify-content-between mt-4">
-              <div className="mb-2 text-uppercase">
-                <div className="invoice-title">Invoice</div>
-                <div className="invoice-id"># - Inv1122</div>
-                <div className="invoice-time">11:35 AM - Today</div>
+            {get(selectedInvoice, "items", false) ? (
+              <div>
+                <div className="d-flex justify-content-between mt-4">
+                  <div className="mb-2 text-uppercase">
+                    <div className="invoice-title">Invoice</div>
+                    <div className="invoice-id"># - {selectedInvoice.id}</div>
+                    <div className="invoice-time">
+                      {moment(selectedInvoice.time).fromNow()}
+                    </div>
+                  </div>
+                  <div className="text-right d-flex">
+                    <CustomerInfo
+                      email={selectedInvoice.email}
+                      fullName={selectedInvoice.name}
+                    />
+                    <div className="align-items-end d-flex ml-3 mb-2"></div>
+                  </div>
+                </div>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>ITEM</th>
+                      <th></th>
+                      <th>QUANTITY</th>
+                      <th></th>
+                      <th>PRICE - ₹</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedInvoice.items.map((item, index) => {
+                      return (
+                        <>
+                          <tr key={`${index}_${item.name}`}>
+                            <td>{item.name}</td>
+                            <td></td>
+                            <td>{item.qty}</td>
+                            <td></td>
+                            <td>{item.price}</td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                      <td>
+                        <div className="text-center">
+                          <div className="d-flex justify-content-around">
+                            <span>Sub Total</span>
+                            <span>
+                              {currencyFormatter.format(
+                                selectedInvoice.subTotal
+                              )}
+                            </span>
+                          </div>
+                          <div className="d-flex justify-content-around">
+                            <span>Tax ({selectedInvoice.tax}%)</span>
+                            <span>
+                              {currencyFormatter.format(
+                                (selectedInvoice.subTotal *
+                                  selectedInvoice.tax) /
+                                  100
+                              )}
+                            </span>
+                          </div>
+                          <div className="d-flex justify-content-around">
+                            <span>Discount ({selectedInvoice.discount}%)</span>
+                            <span>
+                              {currencyFormatter.format(
+                                (selectedInvoice.discount *
+                                  selectedInvoice.subTotal) /
+                                  100
+                              )}
+                            </span>
+                          </div>
+                          <div className="d-flex justify-content-around font-weight-bolder mt-3">
+                            <span>Grand Total</span>
+                            <span>
+                              {currencyFormatter.format(
+                                selectedInvoice.grandTotal
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </Table>
               </div>
-              <div className="text-right d-flex">
-                <CustomerInfo />
-                <div className="align-items-end d-flex ml-3 mb-2"></div>
+            ) : (
+              <div className="d-flex justify-content-center">
+                Create invoices and select an invoice from invoices list.
               </div>
-            </div>
-            <Table>
-              <thead>
-                <tr>
-                  <th>ITEM</th>
-                  <th>QUANTITY</th>
-                  <th>PRICE - ₹</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-              </tbody>
-            </Table>
+            )}
           </CardBody>
         </Card>
       </div>

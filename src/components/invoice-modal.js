@@ -3,6 +3,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter } from "reactstrap";
 import closeIcon from "../assets/close-btn.png";
+import { currencyFormatter } from "../helper";
 import CustomerDetails from "./customer-details";
 import ProductDetails from "./product-details";
 
@@ -69,14 +70,13 @@ const InvoiceModal = ({ modal, toggle, invoices, createInvoices }) => {
         address: address,
         phoneNumber: phoneNumber,
         pincode: pincode,
+        subTotal: subTotal,
         createdAt: moment(new Date()).format(),
       };
       createInvoices(invoiceObj);
       toggle();
     }
   };
-
-  console.log(`grandTotal`, grandTotal);
   return (
     <>
       <Modal isOpen={modal} toggle={toggle} size="xl">
@@ -133,19 +133,25 @@ const InvoiceModal = ({ modal, toggle, invoices, createInvoices }) => {
             <div className="d-flex justify-content-around w-50">
               <div>
                 <div>Tax</div>
-                <div>{`₹ ${
-                  !isEmpty(tax) ? (subTotal * tax) / 100 : "0.00"
+                <div>{`${
+                  !isEmpty(tax)
+                    ? currencyFormatter.format((subTotal * tax) / 100)
+                    : "0.00"
                 }`}</div>
               </div>
               <div>
                 <div>Discount</div>
-                <div>{`₹ ${
-                  !isEmpty(discount) ? (subTotal * discount) / 100 : "0.00"
+                <div>{`${
+                  !isEmpty(discount)
+                    ? currencyFormatter.format((subTotal * discount) / 100)
+                    : "0.00"
                 }`}</div>
               </div>
               <div>
                 <div>Grand Total</div>
-                <div>{`₹ ${grandTotal ? grandTotal : "0.00"}`}</div>
+                <div>{`${
+                  grandTotal ? currencyFormatter.format(grandTotal) : "0.00"
+                }`}</div>
               </div>
             </div>
           )}

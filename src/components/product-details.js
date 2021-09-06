@@ -4,6 +4,7 @@ import editIcon from "../assets/edit.png";
 import CustomerInfo from "./customer-info";
 import { useEffect, useState } from "react";
 import { isEmpty } from "lodash";
+import { currencyFormatter } from "../helper";
 
 const ProductDetails = ({
   email,
@@ -44,7 +45,6 @@ const ProductDetails = ({
     const tempTax = (subTotal * tax) / 100;
     const tempDisc = (subTotal * discount) / 100;
     const tempTotal = subTotal + tempTax - tempDisc;
-    console.log(`*********** temmptotal`, tempTotal);
     setGrandTotal(tempTotal);
   }, [tax, discount, subTotal]);
 
@@ -56,7 +56,6 @@ const ProductDetails = ({
   };
 
   const createItemArrObj = (obj) => {
-    console.log(`obj ************`, obj);
     let tempArray = itemArray;
     tempArray.push(obj);
     setItemArray(tempArray);
@@ -171,7 +170,9 @@ const ProductDetails = ({
         </div>
         <div>
           <span className="mr-5">Sub Total</span>
-          <span className="mx-5 font-weight-bolder">{`₹ ${subTotal}`}</span>
+          <span className="mx-5 font-weight-bolder">
+            {currencyFormatter.format(subTotal)}
+          </span>
         </div>
       </div>
     </>
